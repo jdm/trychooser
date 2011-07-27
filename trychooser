@@ -40,9 +40,13 @@ p_linuxqt = N ("linuxqt", "Build on Qt linux", 'linuxqt,')
 p_macosx = N ("macosx", "Build on Mac OSX 10.5 (i386, 32-bit, part of a universal binary)", 'macosx,')
 p_macosx64 = N ("macosx64", "Build on Mac OSX 10.6 (x86-64, 64-bit, part of a universal binary)", 'macosx64,')
 p_win32 = N ("win32", "Build on Windows", 'win32,')
-p_android = N ("android-r7", "Build on Android", 'android-r7,')
-p_maemo_qt = N ("maemo5-gtk", "Build on GTK version of Maemo", 'maemo5-gtk,')
-p_maemo_gtk = N ("maemo5-qt", "Build on QT version of Maemo", 'maemo5-qt,')
+p_android = N ("linux-android", "Build on Android", 'linux-android,')
+p_android_debug = N ("linux-android-debug", "Build on Android debug", 'linux-android-debug,')
+p_maemo_qt = N ("linux-maemo5-gtk", "Build on GTK version of Maemo", 'linux-maemo5-gtk,')
+p_maemo_gtk = N ("linux-maemo5-qt", "Build on QT version of Maemo", 'linux-maemo5-qt,')
+p_linux_mobile = N ("linux-mobile", "Build mobile on linux", 'linux-mobile,')
+p_macosx_mobile = N ("macosx-mobile", "Build mobile on Mac OSX", 'macosx-mobile,')
+p_win32_mobile = N ("win32-mobile", "Build mobile on Windows", 'win32-mobile,')
 p_none = NoPrompt (" -p none")
 
 u_all = N ("All Unit tests", "Run all unit tests on all chosen platforms", ' -u all')
@@ -126,12 +130,20 @@ p_macosx64.y = p_win32
 p_macosx64.n = p_win32
 p_win32.y = p_android
 p_win32.n = p_android
-p_android.y = p_maemo_qt
-p_android.n = p_maemo_qt
+p_android.y = p_android_debug
+p_android.n = p_android_debug
+p_android_debug.y = p_maemo_qt
+p_android_debug.n = p_maemo_qt
 p_maemo_qt.y = p_maemo_gtk
 p_maemo_qt.n = p_maemo_gtk
-p_maemo_gtk.y = D(u_all)
-p_maemo_gtk.n = D(u_all)
+p_maemo_gtk.y = p_linux_mobile
+p_maemo_gtk.n = p_linux_mobile
+p_linux_mobile.y = p_macosx_mobile
+p_linux_mobile.n = p_macosx_mobile
+p_macosx_mobile.y = p_win32_mobile
+p_macosx_mobile.n = p_win32_mobile
+p_win32_mobile.y = D(u_all)
+p_win32_mobile.n = D(u_all)
 
 u_all.y = t_all
 u_all.n = u_any
@@ -264,7 +276,7 @@ def run_algorithm(state):
   # Hard to test these above, so use string search for weird flag combination
   ################
 
-  platforms  = 'linux,linux64,macosx,macosx64,win32,android-r7,maemo5-gtk,maemo5-qt'.split(',')
+  platforms  = 'linux,linux64,macosx,macosx64,win32,android-r7,maemo5-gtk,maemo5-qt,linux-android,linux-android-debug,linux-maemo5-gtk,linux-maemo5-qt,linux-mobile,win32-mobile,macosx-mobile'.split(',')
   unittests = 'reftest,crashtest,xpcshell,jsreftest,opengl,mochitest-1,mochitest-2,mochitest-3,mochitest-4,mochitest-5,mochitest-o,mochitests'.split(',')
   taloss = 'nochrome,dromaeo,a11y,svg,chrome,tp,dirty,scroll,cold,v8'.split(',')
 
